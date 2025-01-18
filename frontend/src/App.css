@@ -1,42 +1,69 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
+*{
+  margin: 0;
+  padding: 0;
+}
+
+body{
+  font-family: "Ubuntu", serif;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  color: whitesmoke;
+}
+
+#top{
+  display: flex;
+  align-items: center;
+  gap: 100px;
+}
+
+#pfp{
+  width: 100px;
+  height: 100px;
+  background-color: white;
+  border-radius: 50%;
+}
+
+#main-title{
+  font-size: 100px;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+section{
+  padding-top: 200px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 50px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+section div{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+section div img{
+  width: 150px;
+  background-color: white;
+  padding: 20px;
+  border: 10px solid black;
+  border-radius: 20px;
+  transition: background-color 0.5s ease 0s;
 }
 
-.card {
-  padding: 2em;
+section div img:hover{
+  background-color: rgb(112, 150, 255);
 }
 
-.read-the-docs {
-  color: #888;
+section div h2{
+  font-size: 50px;
+  transition: color 0.5s ease 0s;
+}
+
+section div h2:hover{
+  color: rgb(112, 150, 255);
 }
