@@ -10,4 +10,12 @@ services:
     environment:
       MINIO_ROOT_USER: admin
       MINIO_ROOT_PASSWORD: password
-    restart: always
+      
+  keycloak:
+    image: keycloak/keycloak:latest
+    ports:
+      - "8080:8080"
+    command: ["start-dev", "--import-realm"]
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: password
