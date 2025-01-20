@@ -1,18 +1,21 @@
 import express from 'express'
 import multer from 'multer';
-import pkg from 'aws-sdk';
-const { S3 } = pkg;
 import cors from 'cors'
 import axios from 'axios'
 
 const app = express();
 const upload = multer();
-const s3 = new S3({
-    endpoint: 'http://localhost:9000',
-    accessKeyId: process.env.MINIO_ACCESS_KEY,
-    secretAccessKey: process.env.MINIO_SECRET_ACCESS_KEY,
-    s3ForcePathStyle: true,
-});
+
+import * as Minio from 'minio'
+
+
+const s3 = new Minio.Client({
+    endPoint: 'localhost',
+    port: 9000,
+    accessKey: 'JeB5P8U5hY1bgbjhf9rh',
+    secretKey: '8R93nHnjFTexjdakH0G36LXEeqSgHNtNfRsm8vMo',
+  })
+
 
 
 
@@ -22,7 +25,7 @@ app.use(cors({
     credentials: true,
 }));
 
-const keycloakServerUrl = `http://localhost:8080/realms/${process.env.MINIO_REALM}/protocol/openid-connect/token/introspect`
+const keycloakServerUrl = `http://localhost:8080/realms/main_realm/protocol/openid-connect/token/introspect`
 
 async function verifyToken(req, res, next) {
     const token = req.headers.authorization?.split(' ')[1]; // Assuming the token is in the Authorization header as 'Bearer <token>'
@@ -52,22 +55,17 @@ async function verifyToken(req, res, next) {
     }
 }
 
-app.post('/upload', verifyToken, upload.single('file'), async (req, res) => {
-    const params = {
-        Bucket: process.env.MINIO_BUCKET_NAME,
-        Key: req.file.originalname,
-        Body: req.file.buffer,
-    };
-    await s3.upload(params).promise();
+app.post('/upload',  upload.single('file'), async (req, res) => {
+    await s3.putObject("bucket", req.file.originalname, req.file.buffer);
     res.send('File uploaded successfully!');
-});
+})
 
 app.get('/download/:file_id', verifyToken, async (req, res) => {
     const fileId = req.params.file_id;
 
     try {
         const params = {
-            Bucket: process.env.MINIO_BUCKET_NAME,
+            Bucket: 'bucket',
             Key: fileId,
         };
 
