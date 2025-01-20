@@ -11,7 +11,7 @@ function useAuth(){
         isRun.current = true
         const client = new Keycloak({
             url: "http://localhost:8080",
-            realm: "myrealm",
+            realm: "main_realm",
             clientId: "minio",
 
         })

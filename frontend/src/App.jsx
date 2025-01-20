@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import axios from 'axios';
+import useAuth from './hooks/useAuth'
 import './App.css';
 import FileTable from './components/FileTable/FileTable';
 
@@ -15,6 +16,8 @@ function App() {
         await updateFileRef.current.click();
     }
 
+    const token = useAuth()
+
     async function uploadFile(event) {
         const uploadedFile = event.target.files[0];
         if (uploadedFile) {
@@ -25,7 +28,7 @@ function App() {
                 const response = await axios.post('http://localhost:5000/upload', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
-                        Authorization: `Bearer ${localStorage.getItem('authToken')}`, // Replace with your token storage method
+                        Authorization: `Bearer ${token}`, // Replace with your token storage method
                     },
                 });
                 console.log('File uploaded successfully:', response.data);
